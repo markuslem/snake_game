@@ -5,7 +5,7 @@ from random import randint
 pygame.init()
 
 WIDTH, HEIGHT = 960, 540
-#ekraan jaguneb BOXCOUNTks 96 pix ja 54 pix suuruseks ruuduks
+#screen will be devided into 96 pix and 54 pix rectagles
 WIN = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Snake game")
 
@@ -14,15 +14,13 @@ BOXCOLOUR = 0, 0, 0
 BOXSIZE = 36
 BOXCOUNT = int(HEIGHT / BOXSIZE)
 FPS = 60
-TEMPO = 150 # aja intervall millisekundites
+TEMPO = 150 # time interval
 clock = pygame.time.Clock()
 
 
 apple_img = pygame.image.load(
     os.path.join("assets", "apple.png")).convert_alpha()
 
-restart_img = pygame.image.load(
-    os.path.join("assets", "apple.png")).convert_alpha()
 
 apple_img = pygame.transform.scale(apple_img, (BOXSIZE * 4/5, BOXSIZE * 4/5))
 
@@ -70,9 +68,9 @@ def spawn_apple():
         for obj in tail_list:
             rect = obj.tail_rect
             if rect.colliderect(apple_rect):
-                is_available = False
+                is_available = False #is_available - If the coordinates are not on the tail
         
-        if is_available is True: #If the coordinates are not on the tail
+        if is_available is True: 
             WIN.blit(apple_img, apple_rect)
             break
         else: continue
@@ -89,7 +87,7 @@ def apple_eaten():
         return True
   
 class Snake_head: 
-    def __init__(self, rect): # snake_head.head tähistab ruutu, mis asub pea koha peal
+    def __init__(self, rect): # snake_head.head is the rectagle of the snake's head
         self.head = rect
   
     def move(self, direction):
@@ -102,11 +100,11 @@ class Snake_head:
         elif direction == "down":
             self.head.y += BOXSIZE
 
-class Snake_tail: #self.tail_rect tähistab ruutu, mis on saba koha peal
+class Snake_tail: #self.tail_rect is a rectangle of the snake's tail
     def __init__(self, rect):
         self.tail_rect = rect
     
-    def move(self, newrect): # !!!!!!!!!!!!!!! maybe something could be done !!!!!!
+    def move(self, newrect):
         self.tail_rect.x = newrect.x
         self.tail_rect.y = newrect.y
 
@@ -117,7 +115,7 @@ def main():
     #setting the starting position
     tail_length = 3
     global tail_list
-    tail_list = list() # tail_listis contains objects with the tail rectangles
+    tail_list = list() # tail_listis contains objects with the tail's rectangles
     for i in range(-1, -tail_length-1, -1):
         tail_list.append(Snake_tail(pygame.Rect(i*BOXSIZE, 0, BOXSIZE, BOXSIZE)))
     
@@ -145,16 +143,16 @@ def main():
     pygame.draw.rect(WIN, "RED", snake_head.head)
     while run:
         global clock
-        clock.tick(FPS) # the code doesn't run more than FPS
+        clock.tick(FPS)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT: # if window is closed
                 run = False
                 pygame.quit()
                 exit()
                 
 
 
-            if event.type == pygame.KEYDOWN and key_pressed is False and end == False: # if a key is pressed moving value is set to True and direction is changed
+            if event.type == pygame.KEYDOWN and key_pressed is False and end == False: # if a key is pressed, direction is changed
                 moving = True
                 if event.key == pygame.K_RIGHT:
                     if head_direction != "left":
