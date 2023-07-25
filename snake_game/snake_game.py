@@ -5,7 +5,7 @@ from random import randint
 pygame.init()
 
 WIDTH, HEIGHT = 960, 540
-#screen will be devided into 96 pix and 54 pix rectagles
+
 WIN = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Snake game")
 
